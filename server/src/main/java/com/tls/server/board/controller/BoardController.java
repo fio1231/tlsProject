@@ -25,9 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BoardController {
 
+    /** {@link BoardService} */
     @NonNull
     private BoardService boardService;
 
+    /**
+     * 게시판 글 조회
+     * @param boardDto
+     * @return
+     */
     @PostMapping("/get-board")
     public ResponseEntity<BoardDto> getBoardList(@RequestBody BoardDto boardDto) {
         BoardDto resDto = new BoardDto();
@@ -36,23 +42,43 @@ public class BoardController {
         return ResponseEntity.ok(resDto);
     }
 
+    /**
+     * 게시판 글 상세 조회
+     * @param boardDto
+     * @return
+     */
     @PostMapping("/get-board-dtl")
     public ResponseEntity<BoardDto> getBoardDtl(@RequestBody BoardDto boardDto) {
         return ResponseEntity.ok(boardService.selectBoard(boardDto));
     }
 
+    /**
+     * 게시판 등록
+     * @param boardDto
+     * @return
+     */
     @PostMapping("/save-board")
     public ResponseEntity<?> saveBoard(@RequestBody BoardDto boardDto) {
         boardService.insertBoard(boardDto);
         return ResponseEntity.ok().build();
     }
-
+    
+    /**
+     * 게시판 수정
+     * @param boardDto
+     * @return
+     */
     @PostMapping("/update-board")
     public ResponseEntity<?> updateBoard(@RequestBody BoardDto boardDto) {
         boardService.updateBoard(boardDto);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 게시판 삭제
+     * @param boardDto
+     * @return
+     */
     @PostMapping("/delete-board")
     public ResponseEntity<?> deleteBoard(@RequestBody BoardDto boardDto) {
         boardService.deleteBoard(boardDto);

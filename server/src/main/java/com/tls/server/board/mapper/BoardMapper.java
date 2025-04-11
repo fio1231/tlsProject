@@ -20,16 +20,46 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
+    /**
+     * 게시글 리스트 조회
+     * @param paramDto
+     * @return
+     */
     List<BoardDto> selectBoardList(BoardDto paramDto);
 
+    /**
+     * 게시글 리스트 갯수 조회
+     * @param paramDto
+     * @return
+     */
     int selectBoardListCnt(BoardDto paramDto);
 
+    /**
+     * 게시글 데이터 조회
+     * @param paramDto
+     * @return
+     */
     BoardDto selectBoard(BoardDto paramDto);
 
+    /**
+     * 게시글 등록
+     * @param paramDto
+     * @return
+     */
     int insertBoard(BoardDto paramDto);
 
+    /**
+     * 게시글 수정
+     * @param paramDto
+     * @return
+     */
     int updateBoard(BoardDto paramDto);
 
+    /**
+     * 게시글 삭제
+     * @param paramDto
+     * @return
+     */
     int deleteBoard(BoardDto paramDto);
 
 

@@ -25,12 +25,19 @@ import java.util.UUID;
 @Service
 public class CommonService {
 
+    /** 서버 인증 키 */
     @Value("${key-store.key}")
     private String keyStoreKey;
 
+    /** {@link WebClientService} */
     @NonNull
     private WebClientService webClientService;
 
+    /**
+     * 키교환 통신
+     * @param key
+     * @return
+     */
     public EncResDto exchange(String key) {
         EncReqDto reqDto = new EncReqDto();
         reqDto.setHeader(EncReqDto.HeaderData.builder().authKey(keyStoreKey).build());
@@ -38,11 +45,21 @@ public class CommonService {
         return webClientService.encServerPost(reqDto, "exchange");
     }
 
+    /**
+     * 암호화 통신
+     * @param reqDto
+     * @return
+     */
     public EncResDto enc(EncReqDto reqDto) {
         reqDto.setHeader(EncReqDto.HeaderData.builder().authKey(keyStoreKey).build());
         return webClientService.encServerPost(reqDto, "enc");
     }
 
+    /**
+     * 복호화 통신
+     * @param reqDto
+     * @return
+     */
     public EncResDto dec(EncReqDto reqDto) {
         reqDto.setHeader(EncReqDto.HeaderData.builder().authKey(keyStoreKey).build());
         return webClientService.encServerPost(reqDto, "dec");

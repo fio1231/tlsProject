@@ -41,9 +41,17 @@ import java.nio.charset.StandardCharsets;
 @RestControllerAdvice
 public class AuthRequestBodyAdvice implements RequestBodyAdvice {
 
+    /** {@link AuthorizeService} */
     @NonNull
     private AuthorizeService authorizeService;
 
+    /**
+     * Body를 읽을 대상 선택
+     * @param methodParameter
+     * @param targetType
+     * @param converterType
+     * @return
+     */
     @Override
     public boolean supports(@NonNull MethodParameter methodParameter, @NonNull Type targetType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -51,6 +59,15 @@ public class AuthRequestBodyAdvice implements RequestBodyAdvice {
         return !uri.contains("actuator");
     }
 
+    /**
+     * Request Body 읽기전 처리
+     * @param inputMessage
+     * @param parameter
+     * @param targetType
+     * @param converterType
+     * @return
+     * @throws IOException
+     */
     @Override
     public @NonNull HttpInputMessage beforeBodyRead(@NonNull HttpInputMessage inputMessage, @NonNull MethodParameter parameter, @NonNull Type targetType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
 

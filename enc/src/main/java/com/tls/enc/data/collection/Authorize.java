@@ -19,7 +19,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Data
 @Document(collection = "authorize")
 public class Authorize {
+    /** 요청 서버 키 */
     @MongoId
     private String authKey;
+
+    /** 요청 서버 IP */
     private String serverIp;
 }

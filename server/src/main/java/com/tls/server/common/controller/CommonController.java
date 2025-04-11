@@ -25,9 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CommonController {
 
+    /** {@link CommonService} */
     @NonNull
     private CommonService commonService;
 
+    /**
+     * 키교환
+     * @param key
+     * @return
+     */
     @PostMapping("/exchange")
     public ResponseEntity<EncResDto> exchange(@RequestHeader("x-tlspj-key") String key) {
         return ResponseEntity.ok(commonService.exchange(key));

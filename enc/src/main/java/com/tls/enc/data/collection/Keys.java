@@ -20,7 +20,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Data
 @Document(collection = "keys")
 public class Keys {
+    /** 암호화 처리 키 값 */
     @MongoId
     private String token;
+
+    /** {@link KeyInfo} */
     private KeyInfo keyInfo;
 }

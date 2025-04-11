@@ -20,9 +20,14 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class DataResDto {
+    /** 응답 코드 */
     @Builder.Default
     String code = "00000";
+
+    /** 응답 메세지 */
     String msg;
+
+    /** 응답 데이터 */
     Object data;
 }
 

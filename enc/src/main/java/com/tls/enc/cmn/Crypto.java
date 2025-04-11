@@ -26,9 +26,16 @@ import java.util.Base64;
 @Getter
 public class Crypto {
 
+    /** AES IV */
     private final String iv = "!<~tls~><~cuk~>!";
+
+    /** RSA 공개키 */
     private PublicKey publicKey;
+
+    /** RSA 개인키 */
     private PrivateKey privateKey;
+
+    /** AES 키 */
     private String aesKey;
 
     /**

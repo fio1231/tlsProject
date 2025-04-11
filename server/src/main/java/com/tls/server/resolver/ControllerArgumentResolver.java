@@ -29,14 +29,29 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class ControllerArgumentResolver implements HandlerMethodArgumentResolver {
 
+    /** {@link CommonService} */
     @NonNull
     private CommonService commonService;
 
+    /**
+     * 처리할 파라미터 선정
+     * @param parameter
+     * @return
+     */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(EncRequestBody.class);
+        return parameter.hasParameterAnnotation(EncRequestBody.class); // @EncRequestBody
     }
 
+    /**
+     * 파라미터 처리
+     * @param parameter
+     * @param mavContainer
+     * @param webRequest
+     * @param binderFactory
+     * @return
+     * @throws Exception
+     */
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
@@ -50,6 +65,7 @@ public class ControllerArgumentResolver implements HandlerMethodArgumentResolver
         EncReqDto reqDto = new EncReqDto();
         reqDto.setBody(EncReqDto.BodyData.builder().token(token).data(strBody).key(key).build());
 
+        //암호화 서버를 통해 복호화 처리 한다.
         EncResDto resDto = commonService.dec(reqDto);
         String strDec = resDto.getBody().getData();
 

@@ -26,12 +26,17 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    /** {@link CommonService} */
     @NonNull
     private CommonService commonService;
 
+    /**
+     * 파라미터 처리 Resolver 등록
+     * @param resolvers
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new ControllerArgumentResolver(commonService));
+        resolvers.add(new ControllerArgumentResolver(commonService)); // @EncRequestBody 처리
     }
 
 }

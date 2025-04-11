@@ -38,11 +38,19 @@ import java.util.List;
 @RestControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
+    /** {@link CommonService} */
     @NonNull
     private CommonService commonService;
 
+    /** 예외 처리 URI */
     private List<String> excludeUri = Arrays.asList("/exchange");
 
+    /**
+     * Body를 읽을 대상 선택
+     * @param returnType
+     * @param converterType
+     * @return
+     */
     @Override
     public boolean supports(@NonNull MethodParameter returnType
             , @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
@@ -51,6 +59,16 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return !excludeUri.contains(uri) && !uri.contains("actuator");
     }
 
+    /**
+     * Response Body 처리
+     * @param body
+     * @param returnType
+     * @param selectedContentType
+     * @param selectedConverterType
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public @NonNull DataResDto beforeBodyWrite(@NonNull Object body
             , @NonNull MethodParameter returnType
@@ -73,8 +91,10 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         EncReqDto reqDto = new EncReqDto();
         reqDto.setBody(EncReqDto.BodyData.builder().token(token).data(strBody).build());
 
+        // 암호화 서버와 통신하여 암호화 처리
         EncResDto resDto = commonService.enc(reqDto);
 
+        // Body 전달
         return DataResDto.builder().data(resDto.getBody()).build();
 
     }

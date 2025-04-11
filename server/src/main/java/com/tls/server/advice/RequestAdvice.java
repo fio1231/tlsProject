@@ -40,11 +40,20 @@ import java.util.List;
 @RestControllerAdvice
 public class RequestAdvice implements RequestBodyAdvice {
 
+    /** {@link CommonService} */
     @NonNull
     private CommonService commonService;
 
+    /** 예외 처리 URI */
     private List<String> excludeUri = Arrays.asList("/exchange", "/actuator/health");
 
+    /**
+     * Body를 읽을 대상 선택
+     * @param methodParameter
+     * @param targetType
+     * @param converterType
+     * @return
+     */
     @Override
     public boolean supports(@NonNull MethodParameter methodParameter, @NonNull Type targetType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -54,6 +63,15 @@ public class RequestAdvice implements RequestBodyAdvice {
                 && methodParameter.getParameter().getType().getSuperclass().equals(AbstractReqDto.class);
     }
 
+    /**
+     * Request Body 읽기전 처리
+     * @param inputMessage
+     * @param parameter
+     * @param targetType
+     * @param converterType
+     * @return
+     * @throws IOException
+     */
     @Override
     public @NonNull HttpInputMessage beforeBodyRead(@NonNull HttpInputMessage inputMessage
             , @NonNull MethodParameter parameter
@@ -67,9 +85,11 @@ public class RequestAdvice implements RequestBodyAdvice {
         EncReqDto reqDto = new EncReqDto();
         reqDto.setBody(EncReqDto.BodyData.builder().token(token).data(strBody).key(key).build());
 
+        // 암호화 서버와 통신하여 복호화 처리
         EncResDto resDto = commonService.dec(reqDto);
         String strDec = resDto.getBody().getData();
 
+        // Body 재가공
         return new MappingJacksonInputMessage(new ByteArrayInputStream(strDec.getBytes(StandardCharsets.UTF_8)), inputMessage.getHeaders());
     }
 

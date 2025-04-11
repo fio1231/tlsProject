@@ -20,5 +20,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public abstract class AbstractReqDto {
+    /** 토큰 */
     String token;
 }

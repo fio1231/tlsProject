@@ -22,7 +22,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KeyInfo {
+    /** 서버 개인 키 */
     private String serverPrivateKey;
+
+    /** 서버 공개 키 */
     private String serverPublicKey;
+
+    /** 프론트 공개 키 */
     private String clientPublicKey;
 }

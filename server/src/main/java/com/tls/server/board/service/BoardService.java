@@ -24,29 +24,57 @@ import java.util.List;
 @Service
 public class BoardService {
 
+    /** {@link BoardMapper} */
     @NonNull
     private BoardMapper boardMapper;
 
+    /**
+     * 게시판 리스트 조회
+     * @param paramDto
+     * @return
+     */
     public List<BoardDto> selectBoardList(BoardDto paramDto) {
         return boardMapper.selectBoardList(paramDto);
     }
 
+    /**
+     * 개시판 건수 조회
+     * @param paramDto
+     * @return
+     */
     public int selectBoardListCnt(BoardDto paramDto) {
         return boardMapper.selectBoardListCnt(paramDto);
     }
 
+    /**
+     * 게시판 데이타 조회
+     * @param paramDto
+     * @return
+     */
     public BoardDto selectBoard(BoardDto paramDto) {
         return boardMapper.selectBoard(paramDto);
     }
 
+    /**
+     * 게사판 데이터 등록
+     * @param paramDto
+     */
     public void insertBoard(BoardDto paramDto) {
         boardMapper.insertBoard(paramDto);
     }
 
+    /**
+     * 게시판 데이터 수정
+     * @param paramDto
+     */
     public void updateBoard(BoardDto paramDto) {
         boardMapper.updateBoard(paramDto);
     }
 
+    /**
+     * 게시판 데이터 삭제
+     * @param paramDto
+     */
     public void deleteBoard(BoardDto paramDto) {
         boardMapper.deleteBoard(paramDto);
     }

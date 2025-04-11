@@ -28,12 +28,20 @@ import java.util.Objects;
 @Service
 public class WebClientService {
 
+    /** 암호화 서버 IP */
     @Value("${key-store.uri}")
     private String keyStoreBaseUri;
 
+    /** Http 통신을 위한 WebClient */
     @NonNull
     private WebClient webClient;
 
+    /**
+     * 암호화 서버 통신 공통
+     * @param reqDto
+     * @param uri
+     * @return
+     */
     public EncResDto encServerPost(EncReqDto reqDto, String uri) {
         ResponseEntity<EncResDto> response = webClient.mutate()
                 .baseUrl(keyStoreBaseUri)
