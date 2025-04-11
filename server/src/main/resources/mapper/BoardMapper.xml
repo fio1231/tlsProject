@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tls.server.board.mapper.BoardMapper">
+
+    <select id="selectBoardList" parameterType="BoardDto" resultType="BoardDto">
+    SELECT
+           AA.NO
+           ,AA.SUBJECT
+           ,AA.CONTENT
+      FROM(
+           SELECT
+                  ROW_NUMBER() OVER(ORDER BY NO DESC) AS RNUM
+                  ,NO
+                  ,SUBJECT
+                  ,CONTENT
+                  ,DEL_YN
+                  ,CRT_ID
+                  ,CRT_DTM
+             FROM board
+            WHERE DEL_YN = 'N'
+        <if test="null != subject and '' != subject">
+              AND SUBJECT LIKE concat('%', #{subject}, '%')
+        </if>
+           )AA
+     WHERE AA.RNUM BETWEEN (#{pageNo} - 1) * #{pageSize} + 1 AND #{pageNo} * #{pageSize}
+    </select>
+
+    <select id="selectBoardListCnt" parameterType="BoardDto" resultType="int">
+    SELECT
+           COUNT(1)
+      FROM board
+     WHERE DEL_YN = 'N'
+        <if test="null != subject and '' != subject">
+       AND SUBJECT LIKE concat('%', #{subject}, '%')
+        </if>
+    </select>
+
+    <select id="selectBoard" parameterType="BoardDto" resultType="BoardDto">
+    SELECT
+           NO
+           ,SUBJECT
+           ,CONTENT
+           ,DEL_YN
+           ,CRT_ID
+           ,CRT_DTM
+      FROM board
+     WHERE DEL_YN = 'N'
+       AND NO = #{no}
+    </select>
+
+    <insert id="insertBoard" parameterType="BoardDto">
+    INSERT INTO board(
+           SUBJECT
+           ,CONTENT
+           ,DEL_YN
+           ,CRT_ID
+           ,CRT_DTM
+    )VALUES(
+           #{subject}
+           ,#{content}
+           ,'N'
+           ,'admin'
+           ,NOW()
+    )
+    </insert>
+
+    <update id="updateBoard" parameterType="BoardDto">
+    UPDATE board
+       SET CONTENT = #{content}
+     WHERE NO = #{no}
+    </update>
+
+    <update id="deleteBoard" parameterType="BoardDto">
+    UPDATE board
+       SET DEL_YN = 'Y'
+     WHERE NO = #{no}
+    </update>
+
+</mapper>
